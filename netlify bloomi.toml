@@ -1,0 +1,35 @@
+# ══════════════════════════════════════════════════════════════
+#  BLOOMI — Configuración Netlify
+#  Archivo: netlify.toml (va en la raíz del repositorio)
+# ══════════════════════════════════════════════════════════════
+
+[build]
+  publish = "."           # raíz del repo = donde está index.html
+  command = ""            # sin build — es HTML puro
+
+# ── Cabeceras de seguridad y rendimiento ──────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(self), geolocation=(self)"
+
+# Cache largo para recursos estáticos (si agregas imágenes o íconos)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# ── Redirigir todo al index.html (SPA) ───────────────────────
+[[redirects]]
+  from = "/*"
+  to   = "/index.html"
+  status = 200
+
+# ── Variables de entorno (ponlas en Netlify Dashboard > Site Settings > Environment Variables) ──
+# SUPABASE_URL        = https://XXXXXXXX.supabase.co
+# SUPABASE_ANON_KEY   = eyJ...
+# WOMPI_PUB_KEY       = pub_prod_XXXX
