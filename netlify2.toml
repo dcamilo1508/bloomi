@@ -1,0 +1,38 @@
+# ══════════════════════════════════════════════════════════════
+#  BLOOMI — Configuración Netlify
+#  Archivo: netlify.toml (va en la raíz del repositorio)
+# ══════════════════════════════════════════════════════════════
+
+[build]
+  publish = "."    # raíz del repo = donde está index.html
+  command = ""     # sin build — es HTML puro
+
+# ── CRÍTICO: index.html y sw.js NUNCA se cachean en el servidor
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Content-Type = "application/javascript"
+
+# ── Cabeceras de seguridad ─────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(self), geolocation=(self)"
+
+# ── Redirigir todo al index.html (SPA) ────────────────────────
+[[redirects]]
+  from = "/*"
+  to   = "/index.html"
+  status = 200
