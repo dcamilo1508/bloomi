@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌸</text></svg>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Bloomi 🌸 — Plataforma Floral Colombia</title>
 
 <!-- ═══ PWA META TAGS ═══ -->
@@ -1382,10 +1383,10 @@ hr.sep{border:none;border-top:1px solid var(--borde);margin:.8rem 0;}
   <div class="mpag">
     <div class="mph">
       <div style="display:flex;align-items:center;gap:.6rem;">
-        <div style="background:var(--wom);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+        <div style="background:linear-gradient(135deg,#1a3626,#2d5a3d);width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <span style="font-size:1rem;">🌸</span>
         </div>
-        <h2 style="font-size:1.05rem;">Pago seguro con Wompi</h2>
+        <h2 style="font-size:1.05rem;">Pago seguro — Bloomi</h2>
       </div>
       <button class="mpc" onclick="cerrarPago()">✕</button>
     </div>
@@ -1393,79 +1394,81 @@ hr.sep{border:none;border-top:1px solid var(--borde);margin:.8rem 0;}
     <!-- Resumen del pedido -->
     <div class="mpr" id="mpag-res"></div>
 
-    <!-- Métodos de pago -->
-    <div style="font-size:.7rem;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;">Método de pago</div>
-    <div class="mmets" id="mpag-mets">
-      <div class="mmet on" onclick="selMetM(this,'tarjeta')"><span class="mmet-i">💳</span><div class="mmet-n">Tarjeta</div></div>
-      <div class="mmet" onclick="selMetM(this,'pse')"><span class="mmet-i">🏦</span><div class="mmet-n">PSE</div></div>
-      <div class="mmet" onclick="selMetM(this,'nequi')"><span class="mmet-i">📱</span><div class="mmet-n">Nequi</div></div>
-      <div class="mmet" onclick="selMetM(this,'bancolombia')"><span class="mmet-i">🏛️</span><div class="mmet-n">App BC</div></div>
-      <div class="mmet" onclick="selMetM(this,'daviplata')"><span class="mmet-i">💜</span><div class="mmet-n">Daviplata</div></div>
+    <!-- Selector método de pago -->
+    <div style="font-size:.7rem;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;">¿Cómo quieres pagar?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;margin-bottom:.9rem;">
+      <div id="met-wompi" onclick="selMetPago('wompi')" style="border:2px solid var(--verde);border-radius:12px;padding:.6rem .4rem;text-align:center;cursor:pointer;background:#edf5f0;">
+        <div style="font-size:1.3rem;">💳</div>
+        <div style="font-size:.68rem;font-weight:700;color:var(--verde);margin-top:.2rem;">Wompi</div>
+        <div style="font-size:.6rem;color:var(--gris);">Tarjeta/PSE</div>
+      </div>
+      <div id="met-nequi" onclick="selMetPago('nequi')" style="border:2px solid var(--borde);border-radius:12px;padding:.6rem .4rem;text-align:center;cursor:pointer;background:white;">
+        <div style="font-size:1.3rem;">📱</div>
+        <div style="font-size:.68rem;font-weight:700;color:var(--osc);margin-top:.2rem;">Nequi</div>
+        <div style="font-size:.6rem;color:var(--gris);">Transferencia</div>
+      </div>
+      <div id="met-contra" onclick="selMetPago('contra')" style="border:2px solid var(--borde);border-radius:12px;padding:.6rem .4rem;text-align:center;cursor:pointer;background:white;">
+        <div style="font-size:1.3rem;">💵</div>
+        <div style="font-size:.68rem;font-weight:700;color:var(--osc);margin-top:.2rem;">Efectivo</div>
+        <div style="font-size:.6rem;color:var(--gris);">Contra entrega</div>
+      </div>
     </div>
 
-    <!-- Campos del método seleccionado -->
-    <div class="mcamps" id="mpag-camps"></div>
-
-    <!-- Info Wompi expandible -->
-    <div style="border:1px solid var(--borde);border-radius:var(--rs);margin-bottom:.75rem;overflow:hidden;">
-      <div onclick="toggleWompiInfo()" style="display:flex;align-items:center;justify-content:space-between;padding:.55rem .8rem;cursor:pointer;background:var(--marfil);">
-        <div style="display:flex;align-items:center;gap:.5rem;font-size:.75rem;font-weight:600;color:var(--osc);">
-          <span style="background:var(--wom);color:white;font-size:.6rem;font-weight:700;padding:.08rem .38rem;border-radius:4px;">WOMPI</span>
-          ¿Cómo funciona el pago?
+    <!-- Panel Wompi -->
+    <div id="panel-wompi" style="display:block;">
+      <div class="mmets" id="mpag-mets" style="margin-bottom:.7rem;">
+        <div class="mmet on" onclick="selMetM(this,'tarjeta')"><span class="mmet-i">💳</span><div class="mmet-n">Tarjeta</div></div>
+        <div class="mmet" onclick="selMetM(this,'pse')"><span class="mmet-i">🏦</span><div class="mmet-n">PSE</div></div>
+        <div class="mmet" onclick="selMetM(this,'nequi_wompi')"><span class="mmet-i">📱</span><div class="mmet-n">Nequi</div></div>
+      </div>
+      <div class="mcamps" id="mpag-camps"></div>
+      <div class="wom-key-sec">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
+          <strong style="font-size:.78rem;">🔑 Llave Wompi</strong>
+          <span id="wom-est" class="bdg bdg-a">Modo prueba</span>
         </div>
-        <span id="wompi-info-ico" style="font-size:.85rem;color:var(--gris);">▼</span>
+        <input id="wom-key" placeholder="pub_prod_XXXXXXXX" oninput="actKey()" style="margin-bottom:.35rem;">
+        <div id="wom-key-estado" style="margin-top:.3rem;display:none;"></div>
       </div>
-      <div id="wompi-info-body" style="display:none;padding:.7rem .9rem;background:white;border-top:1px solid var(--borde);">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.7rem;">
-          <div style="background:#f0f0ff;border-radius:var(--rs);padding:.55rem .65rem;font-size:.7rem;">
-            <div style="font-weight:700;color:var(--wom);margin-bottom:.2rem;">💳 Tarjeta crédito/débito</div>
-            <div style="color:var(--gris);line-height:1.4;">Visa, Mastercard, Amex. Cuotas disponibles. Débito inmediato.</div>
-          </div>
-          <div style="background:#f0fff4;border-radius:var(--rs);padding:.55rem .65rem;font-size:.7rem;">
-            <div style="font-weight:700;color:#15803d;margin-bottom:.2rem;">🏦 PSE</div>
-            <div style="color:var(--gris);line-height:1.4;">Débito directo desde tu cuenta bancaria. Sin cuotas.</div>
-          </div>
-          <div style="background:#fdf0ff;border-radius:var(--rs);padding:.55rem .65rem;font-size:.7rem;">
-            <div style="font-weight:700;color:#a21caf;margin-bottom:.2rem;">📱 Nequi</div>
-            <div style="color:var(--gris);line-height:1.4;">Paga desde la app Nequi. Aprobación en segundos.</div>
-          </div>
-          <div style="background:#fef9ec;border-radius:var(--rs);padding:.55rem .65rem;font-size:.7rem;">
-            <div style="font-weight:700;color:#b45309;margin-bottom:.2rem;">🏛️ Bancolombia / Daviplata</div>
-            <div style="color:var(--gris);line-height:1.4;">Paga desde la app de Bancolombia o Daviplata.</div>
-          </div>
+      <button class="btn-conf" onclick="procesarPago()">💳 Pagar con Wompi</button>
+      <button class="btn-conf-test" onclick="simPagoModal()">🧪 Simular pago</button>
+    </div>
+
+    <!-- Panel Nequi manual -->
+    <div id="panel-nequi" style="display:none;">
+      <div id="nequi-vendedor-info" style="background:#edf5f0;border-radius:12px;padding:.9rem 1rem;margin-bottom:.7rem;border:1.5px solid rgba(45,90,61,.2);">
+        <div style="font-size:.72rem;font-weight:700;color:var(--verde);margin-bottom:.35rem;">📱 Transfiere por Nequi a:</div>
+        <div id="nequi-num-vendedor" style="font-size:1.3rem;font-weight:900;color:var(--osc);letter-spacing:.08em;margin-bottom:.15rem;">—</div>
+        <div id="nequi-nom-vendedor" style="font-size:.75rem;color:var(--gris);">—</div>
+        <button onclick="copiarNequi()" style="margin-top:.5rem;background:var(--verde);color:white;border:none;padding:.3rem .8rem;border-radius:100px;font-size:.72rem;font-weight:700;cursor:pointer;">📋 Copiar número</button>
+      </div>
+      <div style="font-size:.75rem;font-weight:700;margin-bottom:.3rem;">📸 Comprobante de pago</div>
+      <div style="font-size:.7rem;color:var(--gris);margin-bottom:.5rem;">Transfiere el monto exacto y sube la foto del comprobante</div>
+      <input id="nequi-comprobante" type="text" placeholder="Número de autorización Nequi (ej: 987654321)"
+        style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.85rem;font-family:'DM Sans',sans-serif;margin-bottom:.5rem;">
+      <div style="font-size:.68rem;color:var(--gris);background:var(--crema);border-radius:8px;padding:.5rem .7rem;margin-bottom:.8rem;">
+        💡 El vendedor verificará tu pago y despachará el pedido en máximo 2 horas.
+      </div>
+      <button onclick="confirmarPagoNequi()" style="width:100%;background:linear-gradient(135deg,#1a3626,#2d5a3d);color:white;border:none;padding:.75rem;border-radius:100px;font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;cursor:pointer;">✅ Confirmar pago Nequi</button>
+    </div>
+
+    <!-- Panel Contra entrega -->
+    <div id="panel-contra" style="display:none;">
+      <div style="background:#fef9ec;border-radius:12px;padding:.9rem 1rem;border:1.5px solid #fcd34d;margin-bottom:.8rem;">
+        <div style="font-size:.78rem;font-weight:700;color:#92400e;margin-bottom:.3rem;">💵 Pago contra entrega</div>
+        <div style="font-size:.75rem;color:#78350f;line-height:1.6;">
+          • Pagas en efectivo al recibir el pedido<br>
+          • El repartidor llevará el cambio exacto<br>
+          • Solo disponible en pedidos bajo $500.000
         </div>
-        <div style="background:var(--verde-c);border-radius:var(--rs);padding:.5rem .7rem;font-size:.7rem;color:var(--verde);">
-          🔒 <strong>Pago 100% seguro</strong> — Wompi es la plataforma de pagos de Bancolombia. Tus datos están cifrados con SSL 256-bit. Bloomi nunca almacena información de tarjetas.
-        </div>
       </div>
+      <div id="contra-monto" style="font-size:1.4rem;font-weight:900;color:var(--verde);text-align:center;margin-bottom:.8rem;">—</div>
+      <button onclick="confirmarContraEntrega()" style="width:100%;background:linear-gradient(135deg,#92400e,#78350f);color:white;border:none;padding:.75rem;border-radius:100px;font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;cursor:pointer;">📦 Confirmar pedido — Pago al recibir</button>
     </div>
 
-    <!-- Llave Wompi -->
-    <div class="wom-key-sec">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;">
-        <strong>🔑 Llave pública Wompi</strong>
-        <span id="wom-est" class="bdg bdg-a">Modo prueba</span>
-      </div>
-      <input id="wom-key" placeholder="pub_prod_XXXXXXXXXXXXXXXXXXXXXXXX" oninput="actKey()" style="margin-bottom:.35rem;">
-      <div style="font-size:.66rem;color:var(--gris);line-height:1.5;">
-        📌 Obtén tu llave en <strong style="color:var(--osc);">comercios.wompi.co</strong> → Desarrolladores → Llaves API<br>
-        Usa <code style="background:var(--gris-c);padding:.05rem .28rem;border-radius:3px;font-size:.63rem;">pub_test_</code> para pruebas · <code style="background:#dcfce7;padding:.05rem .28rem;border-radius:3px;font-size:.63rem;">pub_prod_</code> para producción
-      </div>
-      <div id="wom-key-estado" style="margin-top:.4rem;display:none;"></div>
-    </div>
-
-    <!-- Comisiones info -->
-    <div style="background:var(--gris-c);border-radius:var(--rs);padding:.5rem .75rem;margin-bottom:.7rem;font-size:.68rem;color:var(--gris);display:flex;align-items:flex-start;gap:.5rem;">
-      <span>💡</span>
-      <span><strong style="color:var(--osc);">Tarifas Wompi:</strong> Tarjeta 2.69% + $900 · PSE 1% (máx $4.000) · Nequi/Daviplata 0% · App Bancolombia 0%. Consulta tarifas actualizadas en comercios.wompi.co</span>
-    </div>
-
-    <button class="btn-conf" onclick="procesarPago()">💳 Pagar ahora</button>
-    <button class="btn-conf-test" onclick="simPagoModal()">🧪 Simular pago (modo prueba)</button>
-
-    <div class="wom-trust" style="margin-top:.55rem;">
+    <div class="wom-trust" style="margin-top:.7rem;">
       <svg width="12" height="12" viewBox="0 0 24 24" fill="#aaa"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-      Pagos procesados por <span>WOMPI</span> · Bancolombia · PCI DSS · SSL 256-bit
+      Bloomi Marketplace · Pagos seguros · SSL 256-bit
     </div>
   </div>
 </div>
@@ -1711,9 +1714,9 @@ let fFM='Todos',fFT='Todos';
 let idP=3001,idT=1,idF=11,idAD=3,idMAY=4,idEmp=1,idTar=1,idReemb=1,idInvP=1;
 let wompiKey='';
 // 🔑 Llaves Wompi — cambia pub_test_ por pub_prod_ cuando vayas a producción
-const WOMPI_PUB_KEY = 'pub_test_jG0JBOo87LbOJZvPGdLtKqtyy0Aeqf5B'; // reemplaza con tu llave real
+const WOMPI_PUB_KEY = 'pub_test_rMIQA4vhLse7VB3kboZ2xqOtV9auKqGf';
 const WOMPI_BASE = 'https://sandbox.wompi.co/v1';                   // cambiar a https://production.wompi.co/v1 en prod
-const SUPABASE_FUNC_URL = 'https://XXXXXXXX.supabase.co/functions/v1'; // tu project URL
+const SUPABASE_FUNC_URL = 'https://waawccqwggaeswdivfyr.supabase.co/functions/v1';
 
 // ══════════════ HELPERS ══════════════
 function hoy(){return new Date().toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});}
@@ -1729,7 +1732,7 @@ function getEmpsDeEmpresa(tipo,id){return colaboradores.filter(e=>e.empresaTipo=
 // ══════════════ NAVEGACIÓN ══════════════
 function ir(p){
   document.querySelectorAll('.pant').forEach(x=>x.classList.remove('on'));
-  const mp={portada:'port','l-sa':'p-l-sa','l-ad':'p-l-ad','r-ad':'p-r-ad','l-may':'p-l-may','r-may':'p-r-may','l-emp':'p-l-emp',sa:'p-sa',admin:'p-ad',mayor:'p-may',colaborador:'p-emp',tienda:'p-tie'};
+  const mp={portada:'port','l-sa':'p-l-sa','l-ad':'p-l-ad','r-ad':'p-r-ad','l-may':'p-l-may','r-may':'p-r-may','l-emp':'p-l-emp','l-fin':'p-l-fin','r-fin':'p-r-fin',sa:'p-sa',admin:'p-ad',mayor:'p-may',colaborador:'p-emp',tienda:'p-tie',finca:'p-fin','l-evento':'p-l-evento','r-evento':'p-r-evento',evento:'p-evento','l-hotel':'p-l-hotel','r-hotel':'p-r-hotel',hotel:'p-hotel','l-disenador':'p-l-disenador','r-disenador':'p-r-disenador',disenador:'p-disenador','l-funeraria':'p-l-funeraria','r-funeraria':'p-r-funeraria',funeraria:'p-funeraria','emp-sa':'p-emp-sa'};
   document.getElementById(mp[p]||p)?.classList.add('on');
   if(p==='sa')renderSA();
   if(p==='admin')renderAD();
@@ -1740,6 +1743,26 @@ function ir(p){
     setTimeout(()=>mostrarModalIdentidadCliente(),600);
     if(!clienteUbicacion) setTimeout(()=>activarUbicacionCliente(true),300);
   }
+  if(p==='finca')renderFIN();
+  if(p==='evento')renderEV();
+  if(p==='hotel')renderHOT();
+  if(p==='disenador')renderDIS();
+  if(p==='funeraria')renderFUN();
+  if(p==='emp-sa')renderEmpSA();
+  const chatRoles=['admin','may','finca','evento','hotel','disenador','funeraria'];
+  if(chatRoles.includes(p))setTimeout(initChat,300);
+  const tutRoles={admin:'admin',may:'may',finca:'finca',evento:'evento',hotel:'hotel',disenador:'disenador',funeraria:'funeraria'};
+  if(tutRoles[p]){
+    setTimeout(()=>{
+      mostrarBurbujaTutorial(tutRoles[p]);
+      mostrarBtnTutorial(tutRoles[p]);
+    },1500);
+  }
+  setTimeout(()=>{
+    inyectarCampana();
+    const nombre=sesion?.data?.nombre||'';
+    agregarNotificacion(`¡Bienvenido a Bloomi, ${nombre}!`,'Tu sesión está activa. Todo listo 🌸','sistema');
+  },800);
   if(p==='r-ad')setTimeout(agregarInfoMensAD,50);
   if(p==='r-may')setTimeout(agregarInfoMensMAY,50);
 }
@@ -1842,53 +1865,72 @@ function saTab(n,btn){
   };
   if(rend[n]) rend[n]();
 }
-function renderSA(){renderArbolPoder();}
+function renderSA(){
+  renderArbolPoder();
+  // Render overview too if SA panel has tab-overview loaded
+  setTimeout(()=>{
+    if(dbOk) renderSAOverview();
+  }, 100);
+}
 
 function renderSAOverview(){
   const pAdmins=admins.filter(a=>a.estado==='pendiente').length;
   const pMay=mayoristas.filter(m=>m.estado==='pendiente').length;
-  const vencAD=admins.filter(a=>a.mensualidad.estado==='vencida').length;
-  const vencMAY=mayoristas.filter(m=>m.mensualidad.estado==='vencida').length;
+  const pFin=fincas.filter(f=>f.estado==='pendiente').length;
+  const vencAD=admins.filter(a=>a.mensualidad?.estado==='vencida').length;
+  const vencMAY=mayoristas.filter(m=>m.mensualidad?.estado==='vencida').length;
   const recaudo=txs.filter(t=>t.tipo==='mensualidad').reduce((s,t)=>s+t.monto,0);
   const ventas=txs.filter(t=>t.tipo==='pedido').reduce((s,t)=>s+t.monto,0);
   const reembPend=reembolsos.filter(r=>r.estado==='pendiente').length;
-  document.getElementById('tab-overview').innerHTML=`
+  const totalEmps=admins.length+mayoristas.length+fincas.length;
+  const el=document.getElementById('tab-overview');if(!el)return;
+  el.innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;">
+      <div style="font-size:.78rem;color:var(--gris);">🟢 En vivo — Datos de Supabase</div>
+      <button onclick="recargarDatosSA()" style="background:var(--crema);border:1px solid var(--borde);border-radius:100px;padding:.3rem .9rem;font-size:.72rem;cursor:pointer;font-family:'DM Sans',sans-serif;">🔄 Actualizar</button>
+    </div>
     <div class="sg">
-      <div class="sc"><div class="sn">${admins.length}</div><div class="sl">Admins registrados</div></div>
-      <div class="sc"><div class="sn">${mayoristas.length}</div><div class="sl">Mayoristas</div></div>
-      <div class="sc"><div class="sn">${colaboradores.length}</div><div class="sl">Colaboradores totales</div></div>
-      <div class="sc"><div class="sn" style="color:var(--rosa)">${pAdmins+pMay}</div><div class="sl">Solicitudes pendientes</div></div>
-      <div class="sc"><div class="sn" style="color:#b91c1c">${vencAD+vencMAY}</div><div class="sl">Mensualidades vencidas</div></div>
-      <div class="sc"><div class="sn" style="color:var(--naranja)">${reembPend}</div><div class="sl">Reembolsos pendientes</div></div>
+      <div class="sc"><div class="sn">${totalEmps}</div><div class="sl">Empresas en Bloomi</div></div>
+      <div class="sc"><div class="sn" style="color:var(--verde)">${fp(ventas)}</div><div class="sl">Ventas totales</div></div>
       <div class="sc"><div class="sn" style="color:var(--wom)">${fp(recaudo)}</div><div class="sl">Recaudo mensualidades</div></div>
-      <div class="sc"><div class="sn" style="color:var(--verde)">${fp(ventas)}</div><div class="sl">Ventas flores</div></div>
+      <div class="sc"><div class="sn">${colaboradores.length}</div><div class="sl">Colaboradores en red</div></div>
+      <div class="sc"><div class="sn">${pedidos.length}</div><div class="sl">Pedidos procesados</div></div>
+      <div class="sc"><div class="sn" style="color:var(--rosa)">${pAdmins+pMay+pFin}</div><div class="sl">Solicitudes pendientes</div></div>
+      <div class="sc"><div class="sn">${admins.length}</div><div class="sl">🏪 Floristerías</div></div>
+      <div class="sc"><div class="sn">${mayoristas.length}</div><div class="sl">🌿 Mayoristas</div></div>
+      <div class="sc"><div class="sn">${fincas.length}</div><div class="sl">🌾 Fincas</div></div>
+      <div class="sc"><div class="sn" style="color:var(--rosa)">${reembPend}</div><div class="sl">Reembolsos pendientes</div></div>
+      <div class="sc"><div class="sn" style="color:#b91c1c">${vencAD+vencMAY}</div><div class="sl">Mensualidades vencidas</div></div>
+      <div class="sc"><div class="sn" style="color:var(--verde)">${fp(ventas+recaudo)}</div><div class="sl">Ingresos Bloomi</div></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;">
-      <div class="pan"><div class="pan-t">🔔 Solicitudes pendientes</div><div id="sa-pend-cont"></div></div>
+      <div class="pan">
+        <div class="pan-t">🔔 Solicitudes pendientes (${pAdmins+pMay+pFin})</div>
+        <div id="sa-pend-cont">
+          ${[...admins,...mayoristas,...fincas].filter(e=>e.estado==='pendiente').map(e=>`
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--borde);font-size:.8rem;">
+              <div>
+                <div style="font-weight:600;">${e.nombre}</div>
+                <div style="font-size:.7rem;color:var(--gris);">${e.tipo||'empresa'} · ${e.ciudad||'—'}</div>
+              </div>
+              <div style="display:flex;gap:.35rem;">
+                <button onclick="aprobar('${e.tipo}',${e.id})" class="btn bv" style="font-size:.68rem;padding:.2rem .55rem;">✅ Aprobar</button>
+                <button onclick="rechazar('${e.tipo}',${e.id})" class="btn bd" style="font-size:.68rem;padding:.2rem .55rem;">✕</button>
+              </div>
+            </div>`).join('')||'<div style="font-size:.78rem;color:var(--gris);padding:.8rem 0;text-align:center;">Sin solicitudes pendientes ✅</div>'}
+        </div>
+      </div>
       <div class="pan"><div class="pan-t">🔄 Reembolsos pendientes</div><div id="sa-reemb-prev"></div></div>
     </div>`;
-  // Pendientes
-  const todos=[...admins.filter(a=>a.estado==='pendiente').map(a=>({...a,_t:'admin'})),...mayoristas.filter(m=>m.estado==='pendiente').map(m=>({...m,_t:'may'}))];
-  const pc=document.getElementById('sa-pend-cont');
-  if(pc) pc.innerHTML=!todos.length?`<p style="font-size:.78rem;color:var(--gris);">✓ Sin pendientes</p>`:todos.map(x=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--borde);font-size:.78rem;gap:.4rem;flex-wrap:wrap;">
-      <div><strong>${x.nombre}</strong> <span class="bdg ${x._t==='admin'?'bdg-az':'bdg-v'}">${x._t==='admin'?'Admin':'May'}</span></div>
-      <div style="display:flex;gap:.3rem;">
-        <button class="btn bv" style="font-size:.68rem;padding:.2rem .6rem;" onclick="aprobar('${x._t}',${x.id})">✓</button>
-        <button class="btn bd" style="font-size:.68rem;padding:.2rem .55rem;" onclick="rechazar('${x._t}',${x.id})">✗</button>
-      </div>
-    </div>`).join('');
-  // Reembolsos preview
-  const rp=document.getElementById('sa-reemb-prev');
-  const rpList=reembolsos.filter(r=>r.estado==='pendiente').slice(0,3);
-  if(rp) rp.innerHTML=!rpList.length?`<p style="font-size:.78rem;color:var(--gris);">✓ Sin reembolsos pendientes</p>`:rpList.map(r=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--borde);font-size:.78rem;gap:.4rem;flex-wrap:wrap;">
-      <div><strong>#${r.id}</strong> · ${r.flor} · ${fp(r.monto)}</div>
-      <div style="display:flex;gap:.3rem;">
-        <button class="btn bv" style="font-size:.68rem;padding:.2rem .6rem;" onclick="aprobarReembolso(${r.id})">✓</button>
-        <button class="btn bd" style="font-size:.68rem;padding:.2rem .55rem;" onclick="rechazarReembolso(${r.id})">✗</button>
-      </div>
-    </div>`).join('');
+}
+
+async function recargarDatosSA(){
+  toast('🔄 Actualizando datos...');
+  await cargarDatosDB();
+  renderSAOverview();
+  renderAdminsList&&renderAdminsList();
+  renderMayList&&renderMayList();
+  toast('✅ Datos actualizados');
 }
 
 function renderAdminsList(){
@@ -2103,8 +2145,8 @@ function abrirEditFlor(id){
         <div class="fi"><label>Stock (bultos) 📦</label>
           <div style="display:flex;gap:.4rem;align-items:center;">
             <input id="ef-stock" type="number" value="${f.stock}" min="0" style="border:1.5px solid var(--borde);border-radius:var(--rs);padding:.5rem .75rem;font-family:'DM Sans',sans-serif;font-size:.86rem;flex:1;background:var(--marfil);">
-            <button onclick="ajustarStock(${f.id},-1)" style="background:#fee2e2;color:#b91c1c;border:none;width:32px;height:34px;border-radius:var(--rs);cursor:pointer;font-size:1rem;font-weight:700;">−</button>
-            <button onclick="ajustarStock(${f.id},1)" style="background:var(--verde-c);color:var(--verde);border:none;width:32px;height:34px;border-radius:var(--rs);cursor:pointer;font-size:1rem;font-weight:700;">+</button>
+            <button onclick="ajustarStockFlor(${f.id},-1)" style="background:#fee2e2;color:#b91c1c;border:none;width:32px;height:34px;border-radius:var(--rs);cursor:pointer;font-size:1rem;font-weight:700;">−</button>
+            <button onclick="ajustarStockFlor(${f.id},1)" style="background:var(--verde-c);color:var(--verde);border:none;width:32px;height:34px;border-radius:var(--rs);cursor:pointer;font-size:1rem;font-weight:700;">+</button>
           </div>
         </div>
         <div class="fi"><label>Tallos por paquete (tú defines cuántos)</label><input id="ef-tallos" type="number" value="${f.tallos}" min="1" style="border:1.5px solid var(--borde);border-radius:var(--rs);padding:.5rem .75rem;font-family:'DM Sans',sans-serif;font-size:.86rem;width:100%;background:var(--marfil);"></div>
@@ -2120,7 +2162,7 @@ function abrirEditFlor(id){
   document.body.appendChild(div);
 }
 
-function ajustarStock(florId, delta){
+function ajustarStockFlor(florId, delta){
   const f=flores.find(x=>x.id===florId);if(!f)return;
   const inp=document.getElementById('ef-stock');
   const actual=parseInt(inp?.value)||f.stock;
@@ -2376,14 +2418,11 @@ function actualizarPreviewInv(){
 function guardarInvPropio(){
   const empresa=sesion?.data;if(!empresa)return;
   if(!empresa.inventario) empresa.inventario=[];
-
   const tipo=document.getElementById('invp-tipo-sel')?.value;
   const nombre=document.getElementById('invp-nombre')?.value.trim();
   const cant=parseInt(document.getElementById('invp-cantidad')?.value)||0;
-
   if(!tipo){show('invp-cat-aviso');toast('⚠️ Selecciona una categoría');return;}
   if(!nombre){toast('⚠️ Ingresa el nombre de la flor');return;}
-
   const emoji=document.getElementById('invp-emoji')?.value.trim()||'🌸';
   const variedad=document.getElementById('invp-variedad')?.value.trim()||'';
   const unidad=document.getElementById('invp-unidad')?.value||'bultos';
@@ -2392,44 +2431,27 @@ function guardarInvPropio(){
   const pVenta=parseFloat(document.getElementById('invp-pventa')?.value)||0;
   const temp=document.getElementById('invp-temp')?.value||'';
   const alCatalogo=document.getElementById('invp-al-catalogo')?.checked||false;
-
-  // Guardar en inventario propio
   empresa.inventario.push({
     id:idInvP++, nombre, tipo, variedad, emoji,
     cantidad:cant, unidad, tallos, pCosto, pVenta, temp,
-    publicadoEnCatalogo:alCatalogo,
-    fechaAgregado:hoy()
+    publicadoEnCatalogo:alCatalogo, fechaAgregado:hoy()
   });
-
-  // Publicar en catálogo global si se marcó
   if(alCatalogo){
     const pMayor=parseFloat(document.getElementById('invp-pmayor-cat')?.value)||pVenta;
     const pDetal=parseFloat(document.getElementById('invp-pdetal-cat')?.value)||Math.round(pVenta/tallos);
-    flores.push({
-      id:idF++, nombre, tipo, emoji, color:variedad||'Mixto',
-      pMayor, pDetal, stock:cant, tallos, temp,
-      agregadoPor:empresa.nombre
-    });
-    toast(`✅ "${nombre}" guardado en tu inventario Y publicado en el catálogo global`);
-  } else {
-    toast(`✅ "${nombre}" agregado a tu inventario`);
-  }
-
+    flores.push({id:idF++,nombre,tipo,emoji,color:variedad||'Mixto',pMayor,pDetal,stock:cant,tallos,temp,
+      empresaId:empresa.id,empresaNombre:empresa.nombre,empresaTel:empresa.tel||''});
+    toast(`✅ "${nombre}" en inventario y publicado en tu catálogo`);
+  } else toast(`✅ "${nombre}" agregado al inventario`);
   document.getElementById('minvp-ov')?.remove();
-
-  // Re-render inventario
   const tipoSesion=sesion?.rol==='admin'?'admin':'may';
   const contId=tipoSesion==='admin'?'atab-inventario':'mtab-inventario-may';
   const el=document.getElementById(contId);
   if(el) el.innerHTML=`<div class="pan"><div class="pan-t">📦 Mi inventario propio</div>${renderInventarioPropio(tipoSesion)}</div>`;
-
-  // Actualizar catálogo si se publicó
-  if(alCatalogo){
-    renderAdCatFiltros && renderAdCatFiltros();
-    rAdCat && rAdCat();
+  if(dbOk&&empresa._dbId){
+    actualizarEmpresaDB(empresa._dbId,{config:{...empresa.config||{},inventario:empresa.inventario}});
   }
 }
-
 function ajustarInvPropio(user,id,delta){
   const empresa=admins.find(a=>a.user===user)||mayoristas.find(m=>m.user===user);
   if(!empresa||!empresa.inventario)return;
@@ -2536,11 +2558,13 @@ function addFlorDesdeAdmin(){
   const n=g('adcat-n'),t=g('adcat-ti'),pm=parseFloat(g('adcat-pm')),pd=parseFloat(g('adcat-pd'));
   const st=parseInt(g('adcat-st'))||0,ta=parseInt(g('adcat-ta'))||25,co=g('adcat-co')||'Mixto',em=g('adcat-em')||'🌸';
   if(!n||!t||isNaN(pm)||isNaN(pd)){toast('⚠️ Nombre, tipo y precios requeridos');return;}
-  flores.push({id:idF++,nombre:n,tipo:t,emoji:em,color:co,pMayor:pm,pDetal:pd,stock:st,tallos:ta,temp:'',agregadoPor:sesion?.data?.nombre});
+  const empresa=sesion?.data;
+  flores.push({id:idF++,nombre:n,tipo:t,emoji:em,color:co,pMayor:pm,pDetal:pd,stock:st,tallos:ta,temp:'',
+    empresaId:empresa?.id,empresaNombre:empresa?.nombre,empresaTel:empresa?.tel||''});
   ['adcat-n','adcat-pm','adcat-pd','adcat-st','adcat-ta','adcat-co','adcat-em'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
-  document.getElementById('adcat-ti').value='';
-  toggleAddFlor();
-  rAdCat();toast('✅ Flor agregada al catálogo global');
+  if(document.getElementById('adcat-ti'))document.getElementById('adcat-ti').value='';
+  toggleAddFlor();rAdCat();renderAdCatFiltros();
+  toast('✅ Flor agregada a tu catálogo');
 }
 
 function renderAdCatFiltros(){
@@ -3005,17 +3029,49 @@ function guardarListaTareas(tipo){
 
 function renderReembolsosPanel(tipo){
   const empresa=sesion?.data;
-  const misReemb=reembolsos.filter(r=>r.empresaTipo===tipo&&r.empresaId===empresa.id);
+  const misReemb=reembolsos.filter(r=>r.empresaId===empresa?.id||r.empresaTipo===tipo&&r.empresaId===empresa?.id);
   const contId=tipo==='admin'?'atab-reembolsos':'mtab-reembolsos-may';
   const el=document.getElementById(contId);if(!el)return;
+  const pendientes=misReemb.filter(r=>r.estado==='pendiente');
+  const resueltos=misReemb.filter(r=>r.estado!=='pendiente');
   el.innerHTML=`
-    <div class="pan"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;"><div class="pan-t" style="margin-bottom:0;">🔄 Solicitudes de reembolso</div></div>
-      <div style="background:var(--naranja-c);border-radius:var(--rs);padding:.6rem .8rem;margin-bottom:.8rem;font-size:.75rem;color:var(--naranja);">📌 Los clientes y mayoristas pueden solicitar reembolso por flores en mal estado. Revisa y gestiona aquí.</div>
-      ${renderReembolsosLista(misReemb,false)||`<div class="empty"><div class="empty-i">🔄</div><p>Sin solicitudes de reembolso.</p></div>`}
+    <div class="pan">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;flex-wrap:wrap;gap:.5rem;">
+        <div class="pan-t" style="margin-bottom:0;">🔄 Solicitudes de reembolso</div>
+        <button class="btn bnar" style="font-size:.75rem;" onclick="abrirReembolso('${tipo}')">+ Nueva solicitud</button>
+      </div>
+      <div style="background:var(--naranja-c);border-radius:var(--rs);padding:.65rem .9rem;margin-bottom:1rem;font-size:.76rem;color:var(--naranja);">
+        📌 Tú decides si apruebas o rechazas cada solicitud de tus clientes. El Admin General solo recibe notificación del resultado.
+      </div>
+      ${pendientes.length?`<div style="font-size:.78rem;font-weight:700;color:var(--naranja);margin-bottom:.5rem;">⏳ Pendientes (${pendientes.length})</div>`:''}
+      ${pendientes.map(r=>`
+        <div class="reemb-card pendiente-r">
+          <div class="reemb-head">
+            <div><div class="reemb-id">Reembolso #${r.id} <span class="bdg bdg-nar">pendiente</span></div>
+            <div style="font-size:.7rem;color:var(--gris);margin-top:2px;">${r.fecha} · Pedido #${r.pedidoId||'—'} · ${r.solicitante}</div></div>
+            <div style="display:flex;gap:.3rem;">
+              <button class="btn bv" style="font-size:.7rem;padding:.22rem .6rem;" onclick="empresaAprobarReembolso(${r.id})">✓ Aprobar</button>
+              <button class="btn bd" style="font-size:.7rem;padding:.22rem .58rem;" onclick="empresaRechazarReembolso(${r.id})">✗ Rechazar</button>
+            </div>
+          </div>
+          <div style="font-size:.8rem;"><strong>${r.flor}</strong> · ${r.motivo}</div>
+          <div style="font-size:.76rem;color:var(--gris);">${r.desc}</div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;color:var(--naranja);margin-top:.35rem;">${fp(r.monto)}</div>
+        </div>`).join('')}
+      ${resueltos.length?`<div style="font-size:.78rem;font-weight:700;color:var(--gris);margin:.7rem 0 .5rem;">📋 Historial</div>`:''}
+      ${resueltos.map(r=>`
+        <div class="reemb-card ${r.estado}">
+          <div class="reemb-head">
+            <div><div class="reemb-id">Reembolso #${r.id} <span class="bdg ${r.estado==='aprobado'?'bdg-ok':'bdg-out'}">${r.estado}</span></div>
+            <div style="font-size:.7rem;color:var(--gris);">${r.fecha} · ${r.solicitante}</div></div>
+          </div>
+          <div style="font-size:.79rem;"><strong>${r.flor}</strong> · ${fp(r.monto)}</div>
+          ${r.estado==='aprobado'?`<div style="font-size:.7rem;color:#15803d;font-weight:600;margin-top:.25rem;">✓ Reembolso aprobado · Coordinado con el cliente</div>`:''}
+        </div>`).join('')}
+      ${!misReemb.length?`<div class="empty"><div class="empty-i">🔄</div><p>Sin solicitudes de reembolso.</p></div>`:''}
     </div>`;
 }
 
-// Funciones colaboradores
 function abrirRegEmp(){
   const empresa=getEmpresaActual();if(!empresa)return;
   tareaEmpresaId=empresa.data.id;tareaEmpresaTipo=empresa.tipo;
@@ -3277,7 +3333,7 @@ async function procesarSuscripcion(){
     const tokRes=await fetch(`${WOMPI_BASE}/tokens/cards`,{
       method:'POST',
       headers:{'Authorization':`Bearer ${WOMPI_PUB_KEY}`,'Content-Type':'application/json'},
-      body:JSON.stringify({number:num,cvc:cvv,exp_month:exp.substring(0,2),exp_year:'20'+exp.substring(2,4),card_holder:nom})
+      body:JSON.stringify({number:num,cvc:cvv,exp_month:exp.substring(0,2),exp_year:exp.substring(2,4),card_holder:nom})
     });
     const tokData=await tokRes.json();
     if(!tokData.data?.id) throw new Error(tokData.error?.reason||'Tarjeta rechazada por Wompi');
@@ -3952,6 +4008,179 @@ function abrirPago(canal){
   actualizarCamposModal();
   document.getElementById('mpag-ov').classList.add('on');
 }
+// ══════════ SISTEMA DE PAGOS CON 3 MÉTODOS ══════════
+function selMetPago(met){
+  ['wompi','nequi','contra'].forEach(m=>{
+    const btn=document.getElementById('met-'+m);
+    const panel=document.getElementById('panel-'+m);
+    if(btn){btn.style.border='2px solid var(--borde)';btn.style.background='white';}
+    if(panel)panel.style.display='none';
+  });
+  const btn=document.getElementById('met-'+met);
+  const panel=document.getElementById('panel-'+met);
+  if(btn){btn.style.border='2px solid var(--verde)';btn.style.background='#edf5f0';}
+  if(panel)panel.style.display='block';
+  metModal=met;
+  if(met==='nequi'&&pedPend){
+    const vendedor=getVendedorDePedido(pedPend);
+    const cuenta=vendedor?.cuentaCobro;
+    const elNum=document.getElementById('nequi-num-vendedor');
+    const elNom=document.getElementById('nequi-nom-vendedor');
+    if(cuenta?.metodo==='nequi'&&cuenta?.numero){
+      if(elNum)elNum.textContent=cuenta.numero;
+      if(elNom)elNom.textContent='A nombre de: '+(cuenta.titular||vendedor?.nombre||'Vendedor');
+    } else {
+      if(elNum)elNum.textContent=NEQUI_NUM;
+      if(elNom)elNom.textContent='A nombre de: Bloomi Colombia (Duvan Gualteros)';
+    }
+  }
+  if(met==='contra'&&pedPend){
+    const el=document.getElementById('contra-monto');
+    if(el)el.textContent=fp(pedPend.total);
+  }
+}
+
+function getVendedorDePedido(ped){
+  if(!ped)return null;
+  return [...admins,...mayoristas,...fincas].find(e=>e.id===ped.vendedorId||e.id===ped.empresaId)||null;
+}
+
+function copiarNequi(){
+  const num=document.getElementById('nequi-num-vendedor')?.textContent;
+  if(num&&num!=='—')navigator.clipboard.writeText(num).then(()=>toast('📋 Número copiado')).catch(()=>toast('Copia: '+num));
+}
+
+function confirmarPagoNequi(){
+  const comp=document.getElementById('nequi-comprobante')?.value.trim();
+  if(!comp){toast('⚠️ Ingresa el número de autorización Nequi');return;}
+  if(!pedPend){toast('⚠️ Sin pedido pendiente');return;}
+  pedPend.metodo='Nequi';pedPend.comprobante=comp;
+  cerrarPago();finalizarPago(pedPend,'nequi');
+  toast('✅ Pago Nequi registrado — El vendedor verificará y despachará.');
+}
+
+function confirmarContraEntrega(){
+  if(!pedPend){toast('⚠️ Sin pedido pendiente');return;}
+  if(pedPend.total>500000){toast('⚠️ Contra entrega solo disponible para pedidos bajo $500.000');return;}
+  pedPend.metodo='Contra entrega';
+  cerrarPago();finalizarPago(pedPend,'contra');
+  toast('📦 Pedido confirmado — Pagas al recibir.');
+}
+
+// ══════════════════════════════════════════════════════════════
+//  🏦 VINCULACIÓN DE CUENTA DE COBRO — Empresas
+// ══════════════════════════════════════════════════════════════
+function abrirModalCuentaCobro(){
+  const emp=sesion?.data;if(!emp)return;
+  const c=emp.cuentaCobro||{};
+  document.getElementById('modal-cuenta-cobro')?.remove();
+  document.body.insertAdjacentHTML('beforeend',`
+  <div id="modal-cuenta-cobro" style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;" onclick="if(event.target===this)this.remove()">
+    <div style="background:white;border-radius:20px;width:100%;max-width:400px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.25);max-height:90vh;overflow-y:auto;">
+      <div style="background:linear-gradient(135deg,#1d4ed8,#1e3a8a);padding:1.1rem 1.3rem;color:white;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1;">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-weight:700;">🏦 Mi cuenta de cobro</div>
+          <div style="font-size:.72rem;opacity:.8;margin-top:.1rem;">Aquí recibirás el dinero de tus ventas</div>
+        </div>
+        <button onclick="document.getElementById('modal-cuenta-cobro').remove()" style="background:rgba(255,255,255,.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1rem;">✕</button>
+      </div>
+      <div style="padding:1.1rem 1.3rem;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.4rem;margin-bottom:.9rem;">
+          <div id="cc-met-nequi" onclick="selCCMet('nequi')" style="border:2px solid ${c.metodo==='nequi'?'var(--verde)':'var(--borde)'};border-radius:10px;padding:.5rem .3rem;text-align:center;cursor:pointer;background:${c.metodo==='nequi'?'#edf5f0':'white'};">
+            <div style="font-size:1.2rem;">📱</div><div style="font-size:.66rem;font-weight:700;">Nequi</div>
+          </div>
+          <div id="cc-met-banco" onclick="selCCMet('banco')" style="border:2px solid ${c.metodo==='banco'?'var(--verde)':'var(--borde)'};border-radius:10px;padding:.5rem .3rem;text-align:center;cursor:pointer;background:${c.metodo==='banco'?'#edf5f0':'white'};">
+            <div style="font-size:1.2rem;">🏦</div><div style="font-size:.66rem;font-weight:700;">Bancaria</div>
+          </div>
+          <div id="cc-met-wompi" onclick="selCCMet('wompi')" style="border:2px solid ${c.metodo==='wompi'?'var(--verde)':'var(--borde)'};border-radius:10px;padding:.5rem .3rem;text-align:center;cursor:pointer;background:${c.metodo==='wompi'?'#edf5f0':'white'};">
+            <div style="font-size:1.2rem;">💳</div><div style="font-size:.66rem;font-weight:700;">Wompi</div>
+          </div>
+        </div>
+        <div id="cc-fields-nequi" style="display:block;">
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Número Nequi</label>
+          <input id="cc-nequi-num" type="tel" placeholder="300 123 4567" value="${c.metodo==='nequi'?c.numero:''}" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.9rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 .6rem;">
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Titular</label>
+          <input id="cc-nequi-tit" type="text" placeholder="${emp.nombre}" value="${c.metodo==='nequi'?c.titular||'':''}" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 0;">
+        </div>
+        <div id="cc-fields-banco" style="display:none;">
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Banco</label>
+          <select id="cc-banco" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.86rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 .6rem;">
+            ${['Bancolombia','Davivienda','Banco de Bogotá','BBVA','Banco Popular','Scotiabank Colpatria','Banco de Occidente','Banco Caja Social','Banco Agrario'].map(b=>`<option${c.banco===b?' selected':''}>${b}</option>`).join('')}
+          </select>
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Tipo</label>
+          <select id="cc-tipo" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.86rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 .6rem;">
+            <option${c.tipoCuenta==='ahorros'?' selected':''}>ahorros</option>
+            <option${c.tipoCuenta==='corriente'?' selected':''}>corriente</option>
+          </select>
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Número de cuenta</label>
+          <input id="cc-banco-num" type="tel" placeholder="123456789012" value="${c.metodo==='banco'?c.numero:''}" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.9rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 .6rem;">
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Titular</label>
+          <input id="cc-banco-tit" type="text" placeholder="${emp.nombre}" value="${c.metodo==='banco'?c.titular||'':''}" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 0;">
+        </div>
+        <div id="cc-fields-wompi" style="display:none;">
+          <div style="background:#fef9ec;border-radius:10px;padding:.65rem .85rem;margin-bottom:.7rem;font-size:.72rem;color:#92400e;border:1px solid #fcd34d;">
+            💡 Requiere cuenta de comercio en Wompi. <a href="https://comercios.wompi.co" target="_blank" style="color:#1d4ed8;font-weight:700;">Regístrate aquí →</a>
+          </div>
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Merchant ID</label>
+          <input id="cc-wompi-id" type="text" placeholder="merchant_XXXXXXXX" value="${c.metodo==='wompi'?c.merchantId||'':''}" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 .6rem;">
+          <label style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:var(--gris);">Llave pública</label>
+          <input id="cc-wompi-key" type="text" placeholder="pub_prod_XXXXXXXX" value="${c.metodo==='wompi'?c.publicKey||'':''}" style="width:100%;border:1.5px solid var(--borde);border-radius:10px;padding:.55rem .85rem;font-size:.88rem;font-family:'DM Sans',sans-serif;margin:.3rem 0 0;">
+        </div>
+        <div style="font-size:.7rem;color:var(--gris);background:var(--crema);border-radius:8px;padding:.5rem .7rem;margin:.8rem 0;">
+          🔒 Solo Bloomi puede ver esta información. Se usa únicamente para pagarte tus ventas.
+        </div>
+        <button onclick="guardarCuentaCobroEmpresa()" style="width:100%;background:linear-gradient(135deg,#1d4ed8,#1e3a8a);color:white;border:none;padding:.75rem;border-radius:100px;font-family:'Playfair Display',serif;font-size:.92rem;font-weight:700;cursor:pointer;">
+          💾 Guardar cuenta de cobro
+        </button>
+      </div>
+    </div>
+  </div>`);
+  setTimeout(()=>{if(c.metodo)selCCMet(c.metodo);},50);
+}
+
+function selCCMet(met){
+  ['nequi','banco','wompi'].forEach(m=>{
+    const btn=document.getElementById('cc-met-'+m);
+    const fields=document.getElementById('cc-fields-'+m);
+    if(btn){btn.style.border='2px solid var(--borde)';btn.style.background='white';}
+    if(fields)fields.style.display='none';
+  });
+  const btn=document.getElementById('cc-met-'+met);
+  const fields=document.getElementById('cc-fields-'+met);
+  if(btn){btn.style.border='2px solid var(--verde)';btn.style.background='#edf5f0';}
+  if(fields)fields.style.display='block';
+}
+
+function guardarCuentaCobroEmpresa(){
+  const emp=sesion?.data;if(!emp)return;
+  const metActivo=['nequi','banco','wompi'].find(m=>document.getElementById('cc-fields-'+m)?.style.display!=='none')||'nequi';
+  let cuenta={};
+  if(metActivo==='nequi'){
+    const num=document.getElementById('cc-nequi-num')?.value.trim();
+    if(!num){toast('⚠️ Ingresa tu número Nequi');return;}
+    cuenta={metodo:'nequi',numero:num,titular:document.getElementById('cc-nequi-tit')?.value.trim()||emp.nombre};
+  } else if(metActivo==='banco'){
+    const num=document.getElementById('cc-banco-num')?.value.trim();
+    if(!num){toast('⚠️ Ingresa el número de cuenta');return;}
+    cuenta={metodo:'banco',numero:num,banco:document.getElementById('cc-banco')?.value,tipoCuenta:document.getElementById('cc-tipo')?.value,titular:document.getElementById('cc-banco-tit')?.value.trim()||emp.nombre};
+  } else {
+    const mid=document.getElementById('cc-wompi-id')?.value.trim();
+    if(!mid){toast('⚠️ Ingresa tu Merchant ID');return;}
+    cuenta={metodo:'wompi',merchantId:mid,publicKey:document.getElementById('cc-wompi-key')?.value.trim()};
+  }
+  emp.cuentaCobro=cuenta;
+  if(dbOk&&emp._dbId)db.upd('empresas',emp._dbId,{cuenta_cobro:JSON.stringify(cuenta)}).then(()=>toast('✅ Cuenta guardada en la nube')).catch(()=>toast('✅ Guardado localmente'));
+  else toast('✅ Cuenta de cobro guardada');
+  agregarNotificacion('🏦 Cuenta registrada',`${cuenta.metodo==='nequi'?'Nequi '+cuenta.numero:cuenta.metodo==='banco'?cuenta.banco:cuenta.merchantId}`,'sistema');
+  document.getElementById('modal-cuenta-cobro')?.remove();
+}
+
+function renderBannerCuentaCobro(emp){
+  const c=emp?.cuentaCobro;
+  if(!c)return`<div onclick="abrirModalCuentaCobro()" style="background:#fef9ec;border:1.5px dashed #fcd34d;border-radius:12px;padding:.8rem 1rem;cursor:pointer;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;"><span style="font-size:1.4rem;">🏦</span><div><div style="font-weight:700;font-size:.82rem;color:#92400e;">Registra tu cuenta de cobro</div><div style="font-size:.72rem;color:#78350f;">Sin esto no podemos transferirte tus ventas</div></div><span style="margin-left:auto;color:#92400e;">→</span></div>`;
+  return`<div onclick="abrirModalCuentaCobro()" style="background:#edf5f0;border:1.5px solid rgba(45,90,61,.2);border-radius:12px;padding:.8rem 1rem;cursor:pointer;margin-bottom:1rem;display:flex;align-items:center;gap:.7rem;"><span style="font-size:1.4rem;">${c.metodo==='nequi'?'📱':c.metodo==='banco'?'🏦':'💳'}</span><div><div style="font-weight:700;font-size:.82rem;color:var(--verde);">✅ Cuenta registrada — Editar</div><div style="font-size:.72rem;color:var(--gris);">${c.metodo==='nequi'?'Nequi '+c.numero:c.metodo==='banco'?c.banco+' ****'+c.numero.slice(-4):'Wompi: '+c.merchantId}</div></div><span style="margin-left:auto;color:var(--gris);font-size:.75rem;">→</span></div>`;
+}
+
 function selMetM(btn,m){metModal=m;document.querySelectorAll('.mmet').forEach(b=>b.classList.remove('on'));btn.classList.add('on');actualizarCamposModal();}
 function actualizarCamposModal(){
   const c=document.getElementById('mpag-camps');if(!c)return;
@@ -5071,21 +5300,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 });
 
-function adTabExtra(n,btn){
-  document.querySelectorAll('#p-ad .tabs .tb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  document.querySelectorAll('#p-ad .main > div[id^="atab-"]').forEach(d=>d.style.display='none');
-  const el=document.getElementById('atab-'+n);if(el){el.style.display='block';}
-  if(n==='historial'){const el=document.getElementById('atab-historial');if(el)el.innerHTML=`<div class="pan"><div class="pan-t">📋 Historial de pedidos</div>${renderHistorialPedidos('admin')}</div>`;}
-  if(n==='encargos'){const el=document.getElementById('atab-encargos');if(el)el.innerHTML=`<div class="pan"><div class="pan-t">📦 Encargos pendientes por stock</div>${renderEncargos()}</div>`;}
-}
 
-function mayTabExtra(n,btn){
-  document.querySelectorAll('#p-may .tabs .tb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  ['mtab-catalogo','mtab-mis-peds','mtab-empleados-may','mtab-tareas-may','mtab-reembolsos-may','mtab-incentivos-may','mtab-arreglos','mtab-historial-may','mtab-encargos-may'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.display='none';});
-  const el=document.getElementById('mtab-'+n);if(el)el.style.display='block';
-  if(n==='historial-may'){const el=document.getElementById('mtab-historial-may');if(el)el.innerHTML=`<div class="pan"><div class="pan-t">📋 Historial de pedidos</div>${renderHistorialPedidos('may')}</div>`;}
-  if(n==='encargos-may'){const el=document.getElementById('mtab-encargos-may');if(el)el.innerHTML=`<div class="pan"><div class="pan-t">📦 Encargos pendientes por stock</div>${renderEncargos()}</div>`;}
-}
 
 // ══════════════════════════════════════════════════════
 //  🌳 ÁRBOL DE PODER — RED BLOOMI
@@ -5098,201 +5313,136 @@ function renderArbolPoder(){
   const totalEmps=colaboradores.length;
   const totalPeds=pedidos.length;
 
+  // Agrupar fincas y demás tipos desde el array fincas
+  const eventos_l = (window._otrasEmpresas||[]).filter(e=>e.tipo==='evento');
+  const hoteles_l = (window._otrasEmpresas||[]).filter(e=>e.tipo==='hotel');
+  const dis_l     = (window._otrasEmpresas||[]).filter(e=>e.tipo==='disenador');
+  const fun_l     = (window._otrasEmpresas||[]).filter(e=>e.tipo==='funeraria');
+  const totalTodos = admins.length+mayoristas.length+fincas.length+eventos_l.length+hoteles_l.length+dis_l.length+fun_l.length;
+
+  function nodoCol(lista, cls, ico, titulo, color, colorLight){
+    if(!lista.length) return `
+      <div class="arbol-col" style="min-width:180px;">
+        <div class="arbol-col-titulo" style="background:${color};">${ico} ${titulo}</div>
+        <div style="font-size:.75rem;color:var(--gris);padding:1rem;text-align:center;background:${colorLight};border-radius:12px;border:1.5px dashed ${color}40;">Sin registros aún</div>
+      </div>`;
+    return `
+      <div class="arbol-col" style="min-width:200px;">
+        <div class="arbol-col-titulo" style="background:${color};">${ico} ${titulo}</div>
+        ${lista.map(e=>{
+          const ventas=pedidos.filter(p=>p.empresaId===e.id||p.vendedorId===e.id).reduce((s,p)=>s+(p.total||0),0);
+          const npeds=pedidos.filter(p=>p.empresaId===e.id||p.vendedorId===e.id).length;
+          return`
+          <div class="arbol-conector" style="width:100%;">
+            <div class="nodo-emp ${cls} ${e.estado}" onclick="abrirDetalleEmpresa('${cls}',${e.id})" style="border-color:${color}44;">
+              <div class="nodo-emp-head">
+                <div class="nodo-emp-av" style="background:${colorLight};">${ico}</div>
+                <div>
+                  <div class="nodo-emp-nom">${e.nombre}</div>
+                  <div class="nodo-emp-tipo">${e.ciudad||e.tipo||cls}</div>
+                </div>
+              </div>
+              <div class="nodo-emp-mini-stats">
+                <div class="nodo-mini-stat"><strong style="color:var(--verde);">${fp(ventas)}</strong>Ventas</div>
+                <div class="nodo-mini-stat"><strong>${npeds}</strong>Pedidos</div>
+              </div>
+              <div class="nodo-emp-footer">
+                <span class="nodo-estado-badge ${e.estado==='activo'?'bdg-ok':e.estado==='pendiente'?'bdg-a':'bdg-out'}">${e.estado}</span>
+                <span style="font-size:.65rem;color:${color};font-weight:600;">Ver →</span>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`;
+  }
+
   el.innerHTML=`
     <style>
-      .arbol-wrap{width:100%;overflow-x:auto;padding-bottom:1rem;}
+      .arbol-wrap{width:100%;overflow-x:auto;padding-bottom:2rem;}
       .arbol-root{display:flex;flex-direction:column;align-items:center;}
-      /* Nodo raíz */
-      .nodo-sa{
-        background:linear-gradient(135deg,#92400e,#b8955a);
-        color:white;border-radius:18px;padding:1.2rem 2rem;
-        text-align:center;position:relative;
-        box-shadow:0 8px 32px rgba(184,149,90,.35);
-        min-width:260px;cursor:default;
-        border:3px solid #ddb870;
-        margin-bottom:0;
-      }
+      .nodo-sa{background:linear-gradient(135deg,#92400e,#b8955a);color:white;border-radius:18px;padding:1.2rem 2rem;text-align:center;box-shadow:0 8px 32px rgba(184,149,90,.35);min-width:260px;cursor:default;border:3px solid #ddb870;}
       .nodo-sa-ico{font-size:2.2rem;margin-bottom:.3rem;}
-      .nodo-sa-nom{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;letter-spacing:-.3px;}
+      .nodo-sa-nom{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;}
       .nodo-sa-sub{font-size:.72rem;opacity:.8;margin-top:.1rem;}
-      .nodo-sa-stats{display:flex;gap:.8rem;justify-content:center;margin-top:.7rem;flex-wrap:wrap;}
-      .nodo-sa-stat{background:rgba(255,255,255,.15);border-radius:8px;padding:.3rem .65rem;font-size:.72rem;font-weight:600;}
-      /* Línea central */
-      .arbol-line-v{width:3px;height:40px;background:linear-gradient(to bottom,#b8955a,#e4dfd6);margin:0 auto;}
-      .arbol-line-h-wrap{display:flex;align-items:flex-start;justify-content:center;position:relative;}
-      .arbol-cols{display:flex;gap:2.5rem;align-items:flex-start;justify-content:center;flex-wrap:nowrap;}
-      .arbol-col{display:flex;flex-direction:column;align-items:center;min-width:220px;}
-      .arbol-col-titulo{
-        font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
-        color:white;padding:.28rem .9rem;border-radius:100px;margin-bottom:.8rem;
-      }
-      .arbol-col-titulo.ad{background:var(--azul);}
-      .arbol-col-titulo.may{background:var(--verde);}
-      /* Líneas conectoras */
+      .nodo-sa-stats{display:flex;gap:.6rem;justify-content:center;margin-top:.7rem;flex-wrap:wrap;}
+      .nodo-sa-stat{background:rgba(255,255,255,.18);border-radius:8px;padding:.28rem .6rem;font-size:.68rem;font-weight:600;}
+      .arbol-line-v{width:3px;height:36px;background:linear-gradient(to bottom,#b8955a,#e4dfd6);margin:0 auto;}
+      .arbol-cols{display:flex;gap:1.2rem;align-items:flex-start;justify-content:flex-start;flex-wrap:nowrap;padding:0 .5rem;}
+      .arbol-col{display:flex;flex-direction:column;align-items:center;}
+      .arbol-col-titulo{font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:white;padding:.28rem .8rem;border-radius:100px;margin-bottom:.7rem;white-space:nowrap;}
       .arbol-conector{position:relative;width:100%;}
-      .arbol-conector::before{
-        content:'';position:absolute;top:0;left:50%;
-        transform:translateX(-50%);
-        width:3px;height:28px;
-        background:var(--borde);
-      }
-      /* Nodo empresa */
-      .nodo-emp{
-        background:white;border:2px solid var(--borde);
-        border-radius:14px;padding:.85rem 1rem;
-        width:100%;cursor:pointer;
-        transition:all .2s;text-align:left;
-        margin-top:28px;
-        position:relative;
-      }
-      .nodo-emp:hover{box-shadow:0 6px 24px rgba(28,24,18,.12);transform:translateY(-3px);}
-      .nodo-emp.ad{border-color:var(--azul)44;}
-      .nodo-emp.ad:hover{border-color:var(--azul);}
-      .nodo-emp.may{border-color:var(--verde)44;}
-      .nodo-emp.may:hover{border-color:var(--verde);}
+      .arbol-conector::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:2px;height:24px;background:var(--borde);}
+      .nodo-emp{background:white;border:2px solid var(--borde);border-radius:12px;padding:.75rem .85rem;width:100%;cursor:pointer;transition:all .18s;text-align:left;margin-top:24px;position:relative;}
+      .nodo-emp:hover{box-shadow:0 5px 20px rgba(28,24,18,.1);transform:translateY(-2px);}
+      .nodo-emp.pendiente{border-style:dashed;border-color:#f59e0b;}
       .nodo-emp.suspendido{opacity:.55;border-style:dashed;}
-      .nodo-emp.pendiente{border-style:dashed;border-color:var(--naranja);}
-      .nodo-emp-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem;}
-      .nodo-emp-av{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
-      .nodo-emp-av.ad{background:var(--azul-c);}
-      .nodo-emp-av.may{background:var(--verde-c);}
-      .nodo-emp-nom{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;line-height:1.2;}
-      .nodo-emp-tipo{font-size:.65rem;color:var(--gris);}
-      .nodo-emp-mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-top:.4rem;}
-      .nodo-mini-stat{background:var(--gris-c);border-radius:6px;padding:.25rem .45rem;font-size:.66rem;color:var(--gris);}
-      .nodo-mini-stat strong{color:var(--osc);display:block;font-size:.75rem;}
-      .nodo-emp-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.5rem;padding-top:.5rem;border-top:1px solid var(--borde);}
-      .nodo-estado-badge{font-size:.62rem;font-weight:700;padding:.15rem .5rem;border-radius:100px;}
-      /* Sub-nodos colaboradores */
-      .sub-emps{display:flex;flex-direction:column;gap:.35rem;margin-top:.6rem;padding-top:.6rem;border-top:1px solid var(--borde);}
-      .sub-emp{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--gris);}
-      .sub-emp-av{width:22px;height:22px;border-radius:50%;background:var(--purp-c);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
-      /* Modal detalle empresa */
+      .nodo-emp-head{display:flex;align-items:center;gap:.55rem;margin-bottom:.45rem;}
+      .nodo-emp-av{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+      .nodo-emp-nom{font-family:'Playfair Display',serif;font-size:.84rem;font-weight:700;line-height:1.2;}
+      .nodo-emp-tipo{font-size:.62rem;color:var(--gris);}
+      .nodo-emp-mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:.25rem;margin-top:.35rem;}
+      .nodo-mini-stat{background:var(--crema);border-radius:5px;padding:.2rem .4rem;font-size:.63rem;color:var(--gris);}
+      .nodo-mini-stat strong{color:var(--osc);display:block;font-size:.72rem;}
+      .nodo-emp-footer{display:flex;align-items:center;justify-content:space-between;margin-top:.4rem;padding-top:.4rem;border-top:1px solid var(--borde);}
+      .nodo-estado-badge{font-size:.6rem;font-weight:700;padding:.12rem .45rem;border-radius:100px;}
       .mdet-ov{position:fixed;inset:0;background:rgba(28,24,18,.65);display:flex;align-items:center;justify-content:center;z-index:400;padding:1rem;backdrop-filter:blur(6px);}
-      .mdet{background:white;border-radius:20px;max-width:620px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(28,24,18,.28);animation:su .3s ease;}
-      .mdet-header{padding:1.5rem 1.5rem 1rem;border-bottom:1px solid var(--borde);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
-      .mdet-body{padding:1.3rem 1.5rem;}
-      .mdet-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.7rem;margin-bottom:1.2rem;}
-      .mdet-stat{background:var(--marfil);border-radius:var(--rs);padding:.85rem;border:1px solid var(--borde);}
-      .mdet-stat-n{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;line-height:1;}
-      .mdet-stat-l{font-size:.68rem;color:var(--gris);margin-top:.18rem;}
-      .mdet-section{margin-bottom:1rem;}
-      .mdet-section-t{font-size:.72rem;font-weight:700;color:var(--gris);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;}
-      .mdet-info-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid var(--borde);font-size:.82rem;}
-      .mdet-info-row:last-child{border-bottom:none;}
-      .mdet-emp-row{display:flex;align-items:center;gap:.7rem;padding:.4rem 0;border-bottom:1px solid var(--borde);font-size:.8rem;}
-      .mdet-emp-row:last-child{border-bottom:none;}
+      .mdet{background:white;border-radius:20px;max-width:620px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(28,24,18,.28);}
+      .mdet-header{padding:1.4rem 1.4rem 1rem;border-bottom:1px solid var(--borde);display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+      .mdet-body{padding:1.2rem 1.4rem;}
     </style>
 
     <!-- Stats globales -->
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.7rem;margin-bottom:1.6rem;">
-      <div class="sc"><div class="sn" style="color:var(--dor)">${admins.length+mayoristas.length}</div><div class="sl">Empresas en Bloomi</div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:.6rem;margin-bottom:1.5rem;">
+      <div class="sc"><div class="sn" style="color:var(--dor)">${totalTodos}</div><div class="sl">Empresas en Bloomi</div></div>
       <div class="sc"><div class="sn" style="color:var(--verde)">${fp(totalVentas)}</div><div class="sl">Ventas totales</div></div>
-      <div class="sc"><div class="sn" style="color:var(--wom)">${fp(totalMens)}</div><div class="sl">Recaudo mensualidades</div></div>
-      <div class="sc"><div class="sn">${totalEmps}</div><div class="sl">Colaboradores en red</div></div>
-      <div class="sc"><div class="sn" style="color:var(--rosa)">${totalPeds}</div><div class="sl">Pedidos procesados</div></div>
-      <div class="sc"><div class="sn" style="color:#15803d">${fp(totalVentas+totalMens)}</div><div class="sl">Ingresos totales Bloomi</div></div>
+      <div class="sc"><div class="sn" style="color:var(--wom)">${fp(totalMens)}</div><div class="sl">Mensualidades</div></div>
+      <div class="sc"><div class="sn">${totalEmps}</div><div class="sl">Colaboradores</div></div>
+      <div class="sc"><div class="sn" style="color:var(--rosa)">${totalPeds}</div><div class="sl">Pedidos</div></div>
+      <div class="sc"><div class="sn" style="color:#15803d">${fp(totalVentas+totalMens)}</div><div class="sl">Ingresos Bloomi</div></div>
     </div>
 
-    <!-- ÁRBOL -->
+    <!-- ÁRBOL COMPLETO -->
     <div class="arbol-wrap">
       <div class="arbol-root">
 
-        <!-- NODO RAÍZ: BLOOMI -->
+        <!-- NODO RAÍZ -->
         <div class="nodo-sa">
           <div class="nodo-sa-ico">👑</div>
           <div class="nodo-sa-nom">Bloomi Colombia</div>
-          <div class="nodo-sa-sub">Admin General · Plataforma floral</div>
+          <div class="nodo-sa-sub">Admin General · Plataforma floral B2B</div>
           <div class="nodo-sa-stats">
-            <div class="nodo-sa-stat">🏪 ${admins.length} Admins</div>
+            <div class="nodo-sa-stat">🏪 ${admins.length} Floristerías</div>
             <div class="nodo-sa-stat">🌿 ${mayoristas.length} Mayoristas</div>
+            <div class="nodo-sa-stat">🌾 ${fincas.length} Fincas</div>
+            <div class="nodo-sa-stat">🎉 ${eventos_l.length} Eventos</div>
+            <div class="nodo-sa-stat">🏨 ${hoteles_l.length} Hoteles</div>
+            <div class="nodo-sa-stat">🎨 ${dis_l.length} Diseñadores</div>
+            <div class="nodo-sa-stat">🕊️ ${fun_l.length} Funerarias</div>
             <div class="nodo-sa-stat">👥 ${totalEmps} Colaboradores</div>
-            <div class="nodo-sa-stat">💰 ${fp(totalVentas+totalMens)}</div>
           </div>
         </div>
 
         <div class="arbol-line-v"></div>
 
-        <!-- DOS COLUMNAS: ADMINS | MAYORISTAS -->
+        <!-- FILA 1: ADMINS + MAYORISTAS + FINCAS -->
         <div class="arbol-cols">
+          ${nodoCol(admins,       'ad',  '🏪', 'Floristerías',  '#1d4ed8', '#eff6ff')}
+          ${nodoCol(mayoristas,   'may', '🌿', 'Mayoristas',    '#2d5a3d', '#edf5f0')}
+          ${nodoCol(fincas,       'fin', '🌾', 'Fincas',        '#92400e', '#fef3c7')}
+          ${nodoCol(eventos_l,    'ev',  '🎉', 'Eventos',       '#7c3aed', '#f5f3ff')}
+          ${nodoCol(hoteles_l,    'hot', '🏨', 'Hoteles',       '#ea580c', '#fff7ed')}
+          ${nodoCol(dis_l,        'dis', '🎨', 'Diseñadores',   '#c8506a', '#fdf2f8')}
+          ${nodoCol(fun_l,        'fun', '🕊️', 'Funerarias',    '#64748b', '#f8fafc')}
+        </div>
 
-          <!-- COLUMNA ADMINS -->
-          <div class="arbol-col">
-            <div class="arbol-col-titulo ad">🏪 Floristerías / Admins</div>
-            ${admins.map(a=>{
-              const emps=getEmpsDeEmpresa('admin',a.id);
-              const ventas=pedidos.filter(p=>p.empresaId===a.id).reduce((s,p)=>s+p.total,0);
-              const npeds=pedidos.filter(p=>p.empresaId===a.id).length;
-              const mensP=a.mensualidad.pagos.filter(p=>p.estado!=='en verificación').reduce((s,p)=>s+p.monto,0);
-              return`
-              <div class="arbol-conector" style="width:100%;">
-                <div class="nodo-emp ad ${a.estado}" onclick="abrirDetalleEmpresa('admin',${a.id})">
-                  <div class="nodo-emp-head">
-                    <div class="nodo-emp-av ad">🏪</div>
-                    <div>
-                      <div class="nodo-emp-nom">${a.nombre}</div>
-                      <div class="nodo-emp-tipo">${a.tipo}</div>
-                    </div>
-                  </div>
-                  <div class="nodo-emp-mini-stats">
-                    <div class="nodo-mini-stat"><strong style="color:var(--verde);">${fp(ventas)}</strong>Ventas</div>
-                    <div class="nodo-mini-stat"><strong>${npeds}</strong>Pedidos</div>
-                    <div class="nodo-mini-stat"><strong>${emps.length}</strong>Colaboradores</div>
-                    <div class="nodo-mini-stat"><strong style="color:var(--wom);">${fp(mensP)}</strong>Mens. pago</div>
-                  </div>
-                  ${emps.length?`<div class="sub-emps">${emps.slice(0,3).map(e=>`<div class="sub-emp"><div class="sub-emp-av">👤</div><span>${e.nombre} · <em>${e.cargo}</em></span></div>`).join('')}${emps.length>3?`<div style="font-size:.65rem;color:var(--gris);padding-top:.2rem;">+${emps.length-3} más</div>`:''}</div>`:''}
-                  <div class="nodo-emp-footer">
-                    <span class="nodo-estado-badge ${a.estado==='activo'?'bdg-ok':a.estado==='pendiente'?'bdg-a':'bdg-out'}">${a.estado}</span>
-                    <span style="font-size:.65rem;color:var(--gris);">💳 ${a.mensualidad.estado}</span>
-                    <span style="font-size:.65rem;color:var(--azul);font-weight:600;">Ver detalle →</span>
-                  </div>
-                </div>
-              </div>`;
-            }).join('')||`<div style="font-size:.8rem;color:var(--gris);padding:1rem;text-align:center;">Sin admins registrados</div>`}
-          </div>
-
-          <!-- COLUMNA MAYORISTAS -->
-          <div class="arbol-col">
-            <div class="arbol-col-titulo may">🌿 Mayoristas / Floristerías</div>
-            ${mayoristas.map(m=>{
-              const emps=getEmpsDeEmpresa('may',m.id);
-              const ventas=pedidos.filter(p=>p.empresaId===m.id).reduce((s,p)=>s+p.total,0);
-              const npeds=pedidos.filter(p=>p.empresaId===m.id).length;
-              const mensP=m.mensualidad.pagos.filter(p=>p.estado!=='en verificación').reduce((s,p)=>s+p.monto,0);
-              return`
-              <div class="arbol-conector" style="width:100%;">
-                <div class="nodo-emp may ${m.estado}" onclick="abrirDetalleEmpresa('may',${m.id})">
-                  <div class="nodo-emp-head">
-                    <div class="nodo-emp-av may">🌿</div>
-                    <div>
-                      <div class="nodo-emp-nom">${m.nombre}</div>
-                      <div class="nodo-emp-tipo">${m.tipo}</div>
-                    </div>
-                  </div>
-                  <div class="nodo-emp-mini-stats">
-                    <div class="nodo-mini-stat"><strong style="color:var(--verde);">${fp(ventas)}</strong>Ventas</div>
-                    <div class="nodo-mini-stat"><strong>${npeds}</strong>Pedidos</div>
-                    <div class="nodo-mini-stat"><strong>${emps.length}</strong>Colaboradores</div>
-                    <div class="nodo-mini-stat"><strong style="color:var(--wom);">${fp(mensP)}</strong>Mens. pago</div>
-                  </div>
-                  ${emps.length?`<div class="sub-emps">${emps.slice(0,3).map(e=>`<div class="sub-emp"><div class="sub-emp-av">👤</div><span>${e.nombre} · <em>${e.cargo}</em></span></div>`).join('')}${emps.length>3?`<div style="font-size:.65rem;color:var(--gris);padding-top:.2rem;">+${emps.length-3} más</div>`:''}</div>`:''}
-                  <div class="nodo-emp-footer">
-                    <span class="nodo-estado-badge ${m.estado==='activo'?'bdg-ok':m.estado==='pendiente'?'bdg-a':'bdg-out'}">${m.estado}</span>
-                    <span style="font-size:.65rem;color:var(--gris);">💳 ${m.mensualidad.estado}</span>
-                    <span style="font-size:.65rem;color:var(--verde);font-weight:600;">Ver detalle →</span>
-                  </div>
-                </div>
-              </div>`;
-            }).join('')||`<div style="font-size:.8rem;color:var(--gris);padding:1rem;text-align:center;">Sin mayoristas registrados</div>`}
-          </div>
-
-        </div><!-- fin arbol-cols -->
-      </div><!-- fin arbol-root -->
-    </div><!-- fin arbol-wrap -->
+      </div>
+    </div>
   `;
+
+  // Poblar _otrasEmpresas si no existe
+  window._otrasEmpresas = window._otrasEmpresas || [];
 }
 
-// ── Modal detalle empresa ──
 function abrirDetalleEmpresa(tipo,id){
   const lista=tipo==='admin'?admins:mayoristas;
   const e=lista.find(x=>x.id===id);if(!e)return;
@@ -5959,6 +6109,12 @@ async function cargarDatosDB(){
     iniciarRealtime();
   }catch(e){ console.error('❌ Error DB:',e); }
   ocultarCargandoDB?.();
+  // Refrescar panel SA si está activo
+  if(sesion?.rol==='sa'){
+    renderSAOverview&&renderSAOverview();
+    renderAdminsList&&renderAdminsList();
+    renderMayList&&renderMayList();
+  }
 }
 
 
@@ -6416,7 +6572,43 @@ function inyectarCampana() {
 
 
 // Mappers
-function mEmp(e){return{id:e.id,nombre:e.nombre,tipo:e.subtipo||e.tipo,ciudad:e.ciudad,dep:e.dep,dir:e.dir,tel:e.tel,nit:e.nit,desc:e.desc,user:e.user_id,pass:e.password_hash,estado:e.estado,ha:e.ha,capSemanal:e.cap_semanal,mensualidad:{estado:e.mens_estado||'prueba',vence:e.mens_vence||proxMes(),pagos:[],diasRestantes:e.mens_dias_restantes||30,plan:e.plan||'basico'},empIds:[],inventario:[],_dbId:e.id};}
+function mEmp(e){
+  let cfg={};
+  try{cfg=typeof e.config==='string'?JSON.parse(e.config):(e.config||{});}catch(x){}
+  return{
+    id:e.id,
+    nombre:e.nombre,
+    tipo:cfg.subtipo||e.tipo,
+    ciudad:e.ciudad,
+    dir:e.dir,
+    tel:e.tel,
+    email:e.email,
+    nit:cfg.nit||null,
+    desc:cfg.descripcion||null,
+    nequi:cfg.nequi||e.nequi||null,
+    wompiKey:cfg.wompi_key||e.wompi_key||null,
+    ha:cfg.ha||null,
+    capSemanal:cfg.cap_semanal||null,
+    lat:e.lat,lng:e.lng,
+    instagram:e.instagram,facebook:e.facebook,tiktok:e.tiktok,web:e.web,
+    user:e.user_id,
+    pass:e.password_hash,
+    estado:e.estado||'pendiente',
+    cuentaCobro:e.cuenta_cobro?(typeof e.cuenta_cobro==='string'?JSON.parse(e.cuenta_cobro):e.cuenta_cobro):null,
+    suscripcion:e.suscripcion?(typeof e.suscripcion==='string'?JSON.parse(e.suscripcion):e.suscripcion):null,
+    calificacion:e.calificacion||0,
+    nResenas:e.n_resenas||0,
+    mensualidad:{
+      estado:e.mens_estado||'prueba',
+      vence:e.mens_vence||proxMes(),
+      pagos:[],
+      diasRestantes:30,
+      plan:e.mens_plan||e.plan||'mensual'
+    },
+    empIds:[],inventario:[],
+    _dbId:e.id
+  };
+}
 function mFlor(f){return{id:f.id,nombre:f.nombre,tipo:f.tipo,emoji:f.emoji||'🌸',color:f.color,pFinca:f.p_finca,pMayor:f.p_mayor,pDetal:f.p_detal,stock:f.stock,tallos:f.tallos||25,temp:f.temp||'',empresaId:f.empresa_id,empresaNombre:f.empresa_nombre,empresaTel:f.empresa_tel,fincaId:f.finca_id,fincaNombre:f.finca_nombre,activo:f.activo};}
 function mPed(p){return{id:p.id,ref:p.ref,canal:p.canal,est:p.estado,total:p.total,sub:p.subtotal,env:p.envio,metodo:p.metodo,items:p.items||[],dir:p.dir,tel:p.tel,notas:p.notas,tipo:p.tipo_entrega,empresaId:p.empresa_id,empresaNombre:p.empresa_nombre,vendedorId:p.vendedor_id,vendedorNombre:p.vendedor_nombre,compradorNombre:p.comprador_nombre,fecha:p.fecha};}
 function mEmpl(e){return{id:e.id,nombre:e.nombre,cargo:e.cargo,user:e.user_id,pass:e.password_hash,empresaId:e.empresa_id,empresaTipo:e.empresa_tipo,estado:e.estado,tareas:[]};}
@@ -6433,32 +6625,53 @@ async function guardarFlorDB(flor){
   if(res&&res[0])flor.id=res[0].id;
 }
 async function guardarEmpresaDB(emp,tipo){
-  // Esperar hasta 3s si DB aún no está lista
   if(!dbOk){
     await new Promise(r=>setTimeout(r,2000));
     try{const r=await fetch(`${SUPA_URL}/rest/v1/empresas?limit=1`,{headers:db.h});dbOk=r.ok;}catch(e){dbOk=false;}
   }
-  if(!dbOk){console.warn('Sin DB — empresa no guardada');return null;}
+  if(!dbOk){console.warn('Sin DB — empresa guardada solo localmente');return null;}
   try{
-    const res=await db.ins('empresas',{
-      nombre:emp.nombre,tipo,subtipo:emp.tipo||tipo,
-      ciudad:emp.ciudad||'',dep:emp.dep||'',dir:emp.dir||'',
-      tel:emp.tel||'',nit:emp.nit||'',descripcion:emp.desc||'',
-      user_id:emp.user,password_hash:emp.pass,
-      estado:emp.estado||'pendiente',
-      plan:emp.mensualidad?.plan||'basico',
-      mens_estado:emp.mensualidad?.estado||'prueba',
-      mens_dias_restantes:30,
-      ha:emp.ha||null,cap_semanal:emp.capSemanal||null,
-      nequi:emp.nequi||null,wompi_key:emp.wompiKey||null
-    });
+    // Solo columnas que existen en el schema actual
+    const datos={
+      nombre:      emp.nombre||'',
+      tipo,
+      user_id:     emp.user||'',
+      password_hash: emp.pass||'',
+      estado:      emp.estado||'pendiente',
+      email:       emp.email||null,
+      tel:         emp.tel||null,
+      dir:         emp.dir||null,
+      ciudad:      emp.ciudad||null,
+      lat:         emp.lat||null,
+      lng:         emp.lng||null,
+      horario_a:   emp.horarioA||null,
+      horario_c:   emp.horarioC||null,
+      instagram:   emp.instagram||null,
+      facebook:    emp.facebook||null,
+      tiktok:      emp.tiktok||null,
+      web:         emp.web||null,
+      mens_estado: emp.mensualidad?.estado||'prueba',
+      mens_plan:   emp.mensualidad?.plan||'mensual',
+      plan:        emp.mensualidad?.plan||'mensual',
+      // Datos extra en config JSONB
+      config: JSON.stringify({
+        nit:         emp.nit||null,
+        descripcion: emp.desc||null,
+        nequi:       emp.nequi||null,
+        wompi_key:   emp.wompiKey||null,
+        ha:          emp.ha||null,
+        cap_semanal: emp.capSemanal||null,
+        subtipo:     emp.tipo||null
+      })
+    };
+    const res=await db.ins('empresas',datos);
     if(res&&res[0]){
       emp._dbId=res[0].id;emp.id=res[0].id;
-      console.log(`✅ Guardado en DB: ${emp.nombre} ID:${emp.id}`);
+      console.log(`✅ DB: ${emp.nombre} ID:${emp.id}`);
     }
     return res;
   }catch(e){
-    console.error('Error guardando empresa:',e);
+    console.error('❌ Error guardando empresa:',e);
     return null;
   }
 }
@@ -9396,10 +9609,15 @@ function renderConfigEmpresa(rol, elId) {
 
 function renderConfigMay(){
   renderConfigEmpresa('may','mtab-config-may');
+  // Agregar banner cuenta cobro al inicio
+  const el=document.getElementById('mtab-config-may');
+  if(el){const pan=el.querySelector('.pan');if(pan){const banner=document.createElement('div');banner.innerHTML=renderBannerCuentaCobro(sesion?.data);pan.insertBefore(banner.firstElementChild,pan.firstChild);}}
 }
 
 function renderConfigFin(){
   renderConfigEmpresa('finca','ftab-config-fin');
+  const el=document.getElementById('ftab-config-fin');
+  if(el){const pan=el.querySelector('.pan');if(pan){const banner=document.createElement('div');banner.innerHTML=renderBannerCuentaCobro(sesion?.data);pan.insertBefore(banner.firstElementChild,pan.firstChild);}}
 }
 
 function toggleCfg(key){
@@ -9667,18 +9885,15 @@ window.addEventListener('DOMContentLoaded',async()=>{
 
 // Registrar Service Worker
 if('serviceWorker' in navigator){
-  // Intentar registrar sw.js (funciona en Netlify con el archivo subido)
-  navigator.serviceWorker.register('./sw.js', {scope:'./'})
+  navigator.serviceWorker.getRegistrations().then(regs=>{
+    regs.forEach(r=>r.update());
+  });
+  navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'})
     .then(reg=>{
-      console.log('✅ Bloomi PWA activa');
-      _setupSWUpdates(reg);
+      reg.update();
+      console.log('✅ SW activo v2.0');
     })
-    .catch(()=>{
-      // sw.js no existe aún (desarrollo local) — modo silencioso
-      console.log('ℹ️ SW: sube sw.js a Netlify para activar PWA completa');
-    });
-
-  // Recargar cuando el nuevo SW tome control
+    .catch(()=>console.log('ℹ️ SW no disponible'));
   let refreshing=false;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
     if(!refreshing){refreshing=true;window.location.reload();}
@@ -9896,47 +10111,6 @@ function regFIN(){
   toast('✅ Cultivo registrado — El Admin General revisará tu solicitud');ir('l-fin');
 }
 
-// Navegación Finca
-function ir(p){
-  document.querySelectorAll('.pant').forEach(x=>x.classList.remove('on'));
-  const mp={portada:'port','l-sa':'p-l-sa','l-ad':'p-l-ad','r-ad':'p-r-ad','l-may':'p-l-may','r-may':'p-r-may','l-emp':'p-l-emp','l-fin':'p-l-fin','r-fin':'p-r-fin',sa:'p-sa',admin:'p-ad',mayor:'p-may',colaborador:'p-emp',tienda:'p-tie',finca:'p-fin','l-evento':'p-l-evento','r-evento':'p-r-evento',evento:'p-evento','l-hotel':'p-l-hotel','r-hotel':'p-r-hotel',hotel:'p-hotel','l-disenador':'p-l-disenador','r-disenador':'p-r-disenador',disenador:'p-disenador','l-funeraria':'p-l-funeraria','r-funeraria':'p-r-funeraria',funeraria:'p-funeraria','emp-sa':'p-emp-sa'};
-  document.getElementById(mp[p]||p)?.classList.add('on');
-  if(p==='sa')renderSA();
-  if(p==='admin')renderAD();
-  if(p==='mayor'){cM={};renderMAY();}
-  if(p==='empleado')renderEMP();
-  if(p==='tienda'){
-    cT={};renderTienda();
-    setTimeout(()=>mostrarModalIdentidadCliente(),600);
-    if(!clienteUbicacion) setTimeout(()=>activarUbicacionCliente(true),300);
-  }
-  if(p==='finca')renderFIN();
-  if(p==='evento')renderEV();
-  if(p==='hotel')renderHOT();
-  if(p==='disenador')renderDIS();
-  if(p==='funeraria')renderFUN();
-  if(p==='emp-sa')renderEmpSA();
-  // Iniciar chat para roles de empresa
-  const chatRoles=['admin','may','finca','evento','hotel','disenador','funeraria'];
-  if(chatRoles.includes(p))setTimeout(initChat,300);
-  // Mostrar burbuja tutorial primer mes
-  const tutRoles={admin:'admin',may:'may',finca:'finca',evento:'evento',hotel:'hotel',disenador:'disenador',funeraria:'funeraria'};
-  if(tutRoles[p]){
-    setTimeout(()=>{
-      mostrarBurbujaTutorial(tutRoles[p]);
-      mostrarBtnTutorial(tutRoles[p]);
-    },1500);
-  }
-  // Inyectar campana de notificaciones y dar bienvenida
-  setTimeout(()=>{
-    inyectarCampana();
-    const nombres={sa:'Admin General',r_colab_sa:'Colaborador',r_ad:'Floristería',r_may:'Mayorista',r_fin:'Finca',r_ev:'Eventos',r_hot:'Hotel',r_dis:'Diseñador',r_fun:'Funeraria',r_cli:'Cliente'};
-    const nombre=sesion?.data?.nombre||'';
-    agregarNotificacion(`¡Bienvenido a Bloomi, ${nombre}!`,'Tu sesión está activa. Todo listo 🌸','sistema');
-  },800);
-  if(p==='r-ad')setTimeout(agregarInfoMensAD,50);
-  if(p==='r-may')setTimeout(agregarInfoMensMAY,50);
-}
 
 // Panel Finca
 function renderFIN(){
@@ -10370,15 +10544,6 @@ function renderMensualidades(){
   const mfnl=document.getElementById('mens-fin-list');if(mfnl)mfnl.innerHTML=rend(fincas,'finca')||'<p style="font-size:.78rem;color:var(--gris);">Sin fincas activas.</p>';
 }
 
-// aprobarNequi actualizado para incluir fincas
-function aprobarNequi(tipo,id,ref){
-  const lista=tipo==='admin'?admins:tipo==='may'?mayoristas:fincas;
-  const x=lista.find(a=>a.id===id);if(!x)return;
-  const pago=x.mensualidad.pagos.find(p=>p.ref===ref);if(pago)pago.estado='aprobado';
-  const txPago=txs.find(t=>t.ref===ref);if(txPago)txPago.estado='Aprobada';
-  x.mensualidad.estado='al día';x.mensualidad.vence=proxMes();
-  toast(`✅ Pago Nequi de ${x.nombre} aprobado`);renderMensualidades();renderSAOverview();
-}
 
 // Publicar item del inventario en catálogo (desde botón en tabla)
 function publicarItemEnCatalogo(itemId){
@@ -10430,99 +10595,7 @@ function confirmarPublicacion(itemId){
   renderAdCat();rAdCat();
 }
 
-// addFlorDesdeAdmin también etiqueta con empresaId
-function addFlorDesdeAdmin(){
-  const n=g('adcat-n'),t=g('adcat-ti'),pm=parseFloat(g('adcat-pm')),pd=parseFloat(g('adcat-pd'));
-  const st=parseInt(g('adcat-st'))||0,ta=parseInt(g('adcat-ta'))||25,co=g('adcat-co')||'Mixto',em=g('adcat-em')||'🌸';
-  if(!n||!t||isNaN(pm)||isNaN(pd)){toast('⚠️ Nombre, tipo y precios requeridos');return;}
-  const empresa=sesion?.data;
-  flores.push({id:idF++,nombre:n,tipo:t,emoji:em,color:co,pMayor:pm,pDetal:pd,stock:st,tallos:ta,temp:'',
-    empresaId:empresa?.id,empresaNombre:empresa?.nombre,empresaTel:empresa?.tel||''});
-  ['adcat-n','adcat-pm','adcat-pd','adcat-st','adcat-ta','adcat-co','adcat-em'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
-  if(document.getElementById('adcat-ti'))document.getElementById('adcat-ti').value='';
-  toggleAddFlor();rAdCat();renderAdCatFiltros();
-  toast('✅ Flor agregada a tu catálogo');
-}
 
-// guardarInvPropio también etiqueta si publica
-function guardarInvPropio(){
-  const empresa=sesion?.data;if(!empresa)return;
-  if(!empresa.inventario) empresa.inventario=[];
-  const tipo=document.getElementById('invp-tipo-sel')?.value;
-  const nombre=document.getElementById('invp-nombre')?.value.trim();
-  const cant=parseInt(document.getElementById('invp-cantidad')?.value)||0;
-  if(!tipo){show('invp-cat-aviso');toast('⚠️ Selecciona una categoría');return;}
-  if(!nombre){toast('⚠️ Ingresa el nombre de la flor');return;}
-  const emoji=document.getElementById('invp-emoji')?.value.trim()||'🌸';
-  const variedad=document.getElementById('invp-variedad')?.value.trim()||'';
-  const unidad=document.getElementById('invp-unidad')?.value||'bultos';
-  const tallos=parseInt(document.getElementById('invp-tallos')?.value)||25;
-  const pCosto=parseFloat(document.getElementById('invp-pcosto')?.value)||0;
-  const pVenta=parseFloat(document.getElementById('invp-pventa')?.value)||0;
-  const temp=document.getElementById('invp-temp')?.value||'';
-  const alCatalogo=document.getElementById('invp-al-catalogo')?.checked||false;
-  empresa.inventario.push({id:idInvP++,nombre,tipo,variedad,emoji,cantidad:cant,unidad,tallos,pCosto,pVenta,temp,publicadoEnCatalogo:alCatalogo,fechaAgregado:hoy()});
-  if(alCatalogo){
-    const pMayor=parseFloat(document.getElementById('invp-pmayor-cat')?.value)||pVenta;
-    const pDetal=parseFloat(document.getElementById('invp-pdetal-cat')?.value)||Math.round(pVenta/tallos);
-    flores.push({id:idF++,nombre,tipo,emoji,color:variedad||'Mixto',pMayor,pDetal,stock:cant,tallos,temp,
-      empresaId:empresa.id,empresaNombre:empresa.nombre,empresaTel:empresa.tel||''});
-    toast(`✅ "${nombre}" en inventario y publicado en tu catálogo`);
-  } else toast(`✅ "${nombre}" agregado al inventario`);
-  document.getElementById('minvp-ov')?.remove();
-  const tipoSesion=sesion?.rol==='admin'?'admin':'may';
-  const contId=tipoSesion==='admin'?'atab-inventario':'mtab-inventario-may';
-  const el=document.getElementById(contId);
-  if(el) el.innerHTML=`<div class="pan"><div class="pan-t">📦 Mi inventario propio</div>${renderInventarioPropio(tipoSesion)}</div>`;
-  renderAdCatFiltros();rAdCat();
-}
-
-// ── REEMBOLSOS: empresa gestiona los suyos, SA solo ve notificaciones ──
-// Actualizar renderReembolsosPanel para que la empresa pueda aprobar/rechazar
-function renderReembolsosPanel(tipo){
-  const empresa=sesion?.data;
-  const misReemb=reembolsos.filter(r=>r.empresaId===empresa?.id||r.empresaTipo===tipo&&r.empresaId===empresa?.id);
-  const contId=tipo==='admin'?'atab-reembolsos':'mtab-reembolsos-may';
-  const el=document.getElementById(contId);if(!el)return;
-  const pendientes=misReemb.filter(r=>r.estado==='pendiente');
-  const resueltos=misReemb.filter(r=>r.estado!=='pendiente');
-  el.innerHTML=`
-    <div class="pan">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem;flex-wrap:wrap;gap:.5rem;">
-        <div class="pan-t" style="margin-bottom:0;">🔄 Solicitudes de reembolso</div>
-        <button class="btn bnar" style="font-size:.75rem;" onclick="abrirReembolso('${tipo}')">+ Nueva solicitud</button>
-      </div>
-      <div style="background:var(--naranja-c);border-radius:var(--rs);padding:.65rem .9rem;margin-bottom:1rem;font-size:.76rem;color:var(--naranja);">
-        📌 Tú decides si apruebas o rechazas cada solicitud de tus clientes. El Admin General solo recibe notificación del resultado.
-      </div>
-      ${pendientes.length?`<div style="font-size:.78rem;font-weight:700;color:var(--naranja);margin-bottom:.5rem;">⏳ Pendientes (${pendientes.length})</div>`:''}
-      ${pendientes.map(r=>`
-        <div class="reemb-card pendiente-r">
-          <div class="reemb-head">
-            <div><div class="reemb-id">Reembolso #${r.id} <span class="bdg bdg-nar">pendiente</span></div>
-            <div style="font-size:.7rem;color:var(--gris);margin-top:2px;">${r.fecha} · Pedido #${r.pedidoId||'—'} · ${r.solicitante}</div></div>
-            <div style="display:flex;gap:.3rem;">
-              <button class="btn bv" style="font-size:.7rem;padding:.22rem .6rem;" onclick="empresaAprobarReembolso(${r.id})">✓ Aprobar</button>
-              <button class="btn bd" style="font-size:.7rem;padding:.22rem .58rem;" onclick="empresaRechazarReembolso(${r.id})">✗ Rechazar</button>
-            </div>
-          </div>
-          <div style="font-size:.8rem;"><strong>${r.flor}</strong> · ${r.motivo}</div>
-          <div style="font-size:.76rem;color:var(--gris);">${r.desc}</div>
-          <div style="font-family:'Playfair Display',serif;font-weight:700;color:var(--naranja);margin-top:.35rem;">${fp(r.monto)}</div>
-        </div>`).join('')}
-      ${resueltos.length?`<div style="font-size:.78rem;font-weight:700;color:var(--gris);margin:.7rem 0 .5rem;">📋 Historial</div>`:''}
-      ${resueltos.map(r=>`
-        <div class="reemb-card ${r.estado}">
-          <div class="reemb-head">
-            <div><div class="reemb-id">Reembolso #${r.id} <span class="bdg ${r.estado==='aprobado'?'bdg-ok':'bdg-out'}">${r.estado}</span></div>
-            <div style="font-size:.7rem;color:var(--gris);">${r.fecha} · ${r.solicitante}</div></div>
-          </div>
-          <div style="font-size:.79rem;"><strong>${r.flor}</strong> · ${fp(r.monto)}</div>
-          ${r.estado==='aprobado'?`<div style="font-size:.7rem;color:#15803d;font-weight:600;margin-top:.25rem;">✓ Reembolso aprobado · Coordinado con el cliente</div>`:''}
-        </div>`).join('')}
-      ${!misReemb.length?`<div class="empty"><div class="empty-i">🔄</div><p>Sin solicitudes de reembolso.</p></div>`:''}
-    </div>`;
-}
 
 function empresaAprobarReembolso(id){
   const r=reembolsos.find(x=>x.id===id);if(!r)return;
